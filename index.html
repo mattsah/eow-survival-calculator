@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="//dotink.github.com/inKLing/inkling.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="//dotink.github.com/inKLing/themes/default.css" type="text/css" media="all" />
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			var events = [
+				{date: moment("2013-08-23"), prophet: "Grigori Rasputin", description: "Rasputin prophesied a storm where fire would eat all life on land and Jesus Christ would come back to Earth to comfort those in distress."},
+				{date: moment("2012-12-31"), prophet: "Warren Jeffs", description: "When the end failed to occur as he had predicted on December 23, Jeffs blamed it on his followers' \"lack of faith\", and moved the prediction to December 31."},
+				{date: moment("2012-12-23"), prophet: "Warren Jeffs", description: "The president of the Fundamentalist Church of Jesus Christ of Latter-Day Saints predicted from his prison cell that the world would end by December 23."},
+				{date: moment("2012-12-21"), prophet: "Various", description: "The so-called Mayan apocalypse at the end of the 13th b'ak'tun. The Earth would be destroyed by an asteroid, Nibiru, or some other interplanetary object; an alien invasion; or a supernova. Mayanist scholars stated that no extant classic Maya accounts forecast impending doom, and that the idea that the Long Count calendar ends in 2012 misrepresented Maya history and culture."},
+				{date: moment("2012-06-30"), prophet: "José Luis de Jesús", description: "José Luis de Jesús predicted that the world's governments and economies would fail on this day, and that he and his followers would undergo a transformation that would allow them to fly and walk through walls."},
+				{date: moment("2012-05-27"), prophet: "Ronald Weinland", description: "Ronald Weinland stated Jesus Christ would return and the world would end on this day."},
+				{date: moment("2011-10-21"), prophet: "Harold Camping", description: "When his original date failed to come about, Camping revised his prediction and said that on May 21, a \"Spiritual Judgment\" took place, and that both the physical Rapture and the end of the world would occur on October 21, 2011."},
+				{date: moment("2011-09-29"), prophet: "Ronald Weinland", description: "Ronald Weinland stated Jesus Christ would return on this day. He prophesied nuclear explosions in U.S. port cities by July 2008 as the blowing of the Second Trumpet of Revelation. After his prophecy failed to come true he changed the date for the return of Jesus Christ to May 27, 2012."},
+				{date: moment("2011-05-21"), prophet: "Harold Camping", description: "Camping predicted that the Rapture and devastating earthquakes would occur on May 21, 2011 with God taking approximately 3% of the world's population into Heaven, and that the end of the world would occur five months later on October 21."},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""}
+			];
+
+			$(function() {
+				var calculate = function() {
+					var $calculator    = $('.calculator');
+					var times_survived = 0;					
+					var bday_regex     = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+					var bday           = window.location.hash;
+
+					if (!bday.match(bday_regex)) {
+						alert('Stop fucking around, enter your birthday right!');
+						return;
+					}
+
+					$('.calculator').empty();
+
+					for (var i in events) {
+						if (events[i].date.isAfter(moment(bday, 'YYYY-MM-DD'))) {
+							times_survived++;
+
+							$calculator.append(
+								$('<div>').addClass('apocalypse featurette group')
+								.append($('<div>').addClass('date')
+									.append(
+										$('<span>').addClass('month').text(events[i].date.format('YYYY'))
+									)
+									.append(
+										$('<span>').addClass('day').text(events[i].date.format('MM'))
+									)
+									.append(
+										$('<span>').addClass('year').text(events[i].date.format('DD'))
+									)
+								)
+								.append(
+									$('<div>').addClass('prophet').text(events[i].prophet)
+								)
+								.append(
+									$('<p>').addClass('description').text(events[i].description)
+								)
+							);
+						}
+					}
+
+					$calculator.prepend($('<h3>').text('You have survived the end of the world ' + times_survived + ' time(s).'));
+				};
+
+				$('button').click(function() {
+					window.location.hash = $('input[name=bday]').val();
+					calculate();
+				});
+			});
+		</script>
+
+		<style>
+			body {
+				text-align: center;
+			}
+
+			input[type=text] {
+				width: 25%;
+				margin: 0 auto;
+			}
+
+			label {
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
+			button {
+				float: none;
+			}
+
+			h3 {
+				background-color: #eee;
+				border-radius: .5em;
+				width: 60%;
+				padding: 2.5%;
+				margin: 1em auto;
+			}
+
+			.apocalypse {
+				width: 60%;
+				margin: 3em auto 0;
+			}
+
+			.prophet, .date {
+				font-size: 3em;
+				margin: 0;
+				outline: solid 5px #888;
+			}
+
+			.date {
+				float: left;
+				color: #888;
+			}
+
+			.prophet {
+				float: right;
+				background-color: #888;
+				color: #fff;
+			}
+
+			.description {
+				clear: both;
+				font-size: 1.25em;
+				padding: 1em;
+				color: #BA7F45;
+				text-transform: uppercase;
+			}
+
+
+		</style>
+	</head>
+	<body>
+		<div role="main">
+			<h1>End of the World Survival Calculator</h1>
+			<h2>How many times have you survived the end of the world?</h2>
+
+			<div class="calculator">
+				<label>I was born on:</label>
+				<input type="text" placeholder="YYYY-MM-DD" name="bday" />
+				<button>Calculate</button>
+			</div>
+		</div>
+		<footer>
+
+		</footer>
+	</body>
+</html>
