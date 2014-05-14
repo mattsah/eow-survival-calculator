@@ -24,7 +24,7 @@
 				{date: moment("2001-12-31"), prophet: "Tynnetta Muhammad", description: "This columnist for the Nation of Islam predicted the end would occur sometime in 2001."},
 
 				// 2000s non-specific placeholder
-
+				/*
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
@@ -33,39 +33,42 @@
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
-
+				*/
 
 				{date: moment("2000-05-05"), prophet: "Nuwaubian Nation", description: "This movement claimed that the planetary lineup would cause a \"star holocaust,\" pulling the planets toward the sun on this day."},
 				{date: moment("2000-04-06"), prophet: "James Harmston", description: "The leader of the True and Living Church of Jesus Christ of Saints of the Last Days predicted the Second Coming of Christ would occur on this day."},
 
 				// Y2K Rollover placeholders
+				/*
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				{date: moment(""), prophet: "", description: ""},
+				*/
 
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
-				{date: moment(""), prophet: "", description: ""},
+				{date: moment("1999-11-11"), prophet: "Philip Berg", description: "Berg, dean of the worldwide Kabbalah Centre, stated that on this date \"a ball of fire will descend, destroying almost all of mankind, all vegetation, all forms of life.\""}
 
-
-				{date: moment("1999-11-11"), prophet: "Philip Berg", description: "Berg, dean of the worldwide Kabbalah Centre, stated that on this date \"a ball of fire will descend, destroying almost all of mankind, all vegetation, all forms of life.\""},
-
+				/*
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""},
 				{date: moment(""), prophet: "", description: ""}
+				*/
 			];
 
 			$(function() {
 				var calculate = function() {
 					var $calculator    = $('.calculator');
 					var times_survived = 0;					
+					var addendum       = '';
 					var bday_regex     = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 					var bday           = window.location.hash;
 
@@ -100,10 +103,21 @@
 									$('<p>').addClass('description').text(events[i].description)
 								)
 							);
+
+						} else if (events[i].date.isSame(moment(bday, 'YYYY-MM-DD'))) {
+							addendum = 'You were born on the day the world ended.';
+							break;
+						} else {
+							var diff = events[i].date.from(moment(bday, 'YYYY-MM-DD'), true);
+							var date = events[i].date.format('MMM DD, YYYY');
+							var who  = events[i].prophet;
+
+							addendum = 'You were born approximately ' + diff + ' after the world ended on ' + date + ' as predicted by ' + who + '.';
+							break;
 						}
 					}
 
-					$calculator.prepend($('<h3>').text('You have survived the end of the world ' + times_survived + ' time(s).'));
+					$calculator.prepend($('<h3>').text('You have survived the end of the world ' + times_survived + ' time(s).  ' + addendum));
 				};
 
 				$('button').click(function() {
